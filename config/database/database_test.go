@@ -61,16 +61,19 @@ func TestInsert(t *testing.T) {
 	gormStub := &GormStub{
 		doCreate: func(value interface{}) *gorm.DB {
 			isGormCalled = true
+			if value == nil {
+				t.Error("Registro passado para o banco de dados é nulo")
+			}
 			return &gorm.DB{}
 		},
 	}
 
-	database := &Database{db: gormStub}
+	database := &Database{orm: gormStub}
 	entity := &Entity{Name: "Entity Name"}
 	database.Insert(entity)
 
 	if !isGormCalled {
-		t.Fatal("Método do framework de orm não foi chamado")
+		t.Error("Método do framework de orm não foi chamado")
 	}
 }
 
@@ -79,17 +82,20 @@ func TestUpdate(t *testing.T) {
 
 	gormStub := &GormStub{
 		doSave: func(value interface{}) *gorm.DB {
+			if value == nil {
+				t.Error("Registro passado para o banco de dados é nulo")
+			}
 			isGormCalled = true
 			return &gorm.DB{}
 		},
 	}
 
-	database := &Database{db: gormStub}
+	database := &Database{orm: gormStub}
 
 	database.Update(&Entity{Name: "Entity Name"})
 
 	if !isGormCalled {
-		t.Fatal("Método do framework de orm não foi chamado")
+		t.Error("Método do framework de orm não foi chamado")
 	}
 }
 
@@ -99,22 +105,18 @@ func TestDelete(t *testing.T) {
 	gormStub := &GormStub{
 		doDelete: func(value interface{}, conds ...interface{}) *gorm.DB {
 			isGormCalled = true
+			if value == nil || conds == nil {
+				t.Error("Registro passado para o banco de dados é nulo")
+			}
 			return &gorm.DB{}
 		},
 	}
 
-	database := &Database{db: gormStub}
+	database := &Database{orm: gormStub}
 
 	database.Delete(&Entity{}, 1, 2, 3)
 
 	if !isGormCalled {
 		t.Fatal("Método do framework de orm não foi chamado")
-	}
-}
-
-func TestGetDatabase(t *testing.T) {
-
-	if GetDatabase() == nil {
-		t.Fatal("Erro ao carregar o banco de dados")
 	}
 }
