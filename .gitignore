@@ -15,3 +15,5 @@
 # vendor/
 
 config/database/conductor.db
+*/**/*.db
+*.db
