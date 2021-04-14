@@ -1,6 +1,6 @@
 package crud
 
-import "fmt"
+import "log"
 
 type (
 
@@ -10,6 +10,7 @@ type (
 		Update(entity interface{})
 		Find(target interface{}, entity interface{}, inputs ...interface{})
 		FindAll(target interface{})
+		FindById(target interface{}, conds ...interface{})
 		Delete(entity interface{}, id ...interface{})
 	}
 
@@ -24,34 +25,46 @@ var (
 
 func init() {
 	service = &CrudService{repository: GetRepository()}
-	fmt.Println("Serviço criado com sucesso")
+	log.Println("Serviço criado com sucesso")
 }
 
 func GetService() *CrudService {
 	return service
 }
 
+func (s *CrudService) Repository() ICrudRepository {
+	if s.repository == nil {
+		s.repository = GetRepository()
+	}
+	return s.repository
+}
+
 // Insert - Inserção de registro no banco de dados
 func (c *CrudService) Insert(entity interface{}) {
-	c.repository.Insert(entity)
+	c.Repository().Insert(entity)
 }
 
 // Update - Alteração de registro no banco de dados
 func (c *CrudService) Update(entity interface{}) {
-	c.repository.Update(entity)
+	c.Repository().Update(entity)
 }
 
 // Find - Consulta de registros no banco de dados
 func (c *CrudService) Find(target interface{}, entity interface{}, inputs ...interface{}) {
-	c.repository.Find(target, entity, inputs)
+	c.Repository().Find(target, entity, inputs)
 }
 
 // FindAll - Consulta todos os registros no banco de dados
 func (c *CrudService) FindAll(target interface{}) {
-	c.repository.FindAll(target)
+	c.Repository().FindAll(target)
+}
+
+// FindById - Consulta de registros no banco de dados por id
+func (c *CrudService) FindById(target interface{}, conds ...interface{}) {
+	c.Repository().FindById(target, conds...)
 }
 
 // Delete - Exclusão de registro no banco de dados
-func (database *CrudService) Delete(entity interface{}, id ...interface{}) {
-	database.repository.Delete(entity, id)
+func (c *CrudService) Delete(entity interface{}, id ...interface{}) {
+	c.Repository().Delete(entity, id)
 }

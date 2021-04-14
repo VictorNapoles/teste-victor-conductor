@@ -1,7 +1,7 @@
 package crud
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/VictorNapoles/teste-victor-conductor/config/database"
 )
@@ -14,6 +14,7 @@ type (
 		Update(entity interface{})
 		Find(target interface{}, entity interface{}, inputs ...interface{})
 		FindAll(target interface{})
+		FindById(target interface{}, conds ...interface{})
 		Delete(entity interface{}, id ...interface{})
 	}
 
@@ -28,7 +29,7 @@ var (
 
 func init() {
 	repository = &CrudRepository{db: database.GetDatabase()}
-	fmt.Println("Repositório criado com sucesso")
+	log.Println("Repositório criado com sucesso")
 }
 
 func GetRepository() *CrudRepository {
@@ -53,6 +54,11 @@ func (c *CrudRepository) Find(target interface{}, entity interface{}, inputs ...
 // FindAll - Consulta todos os registros no banco de dados
 func (c *CrudRepository) FindAll(target interface{}) {
 	c.db.FindAll(target)
+}
+
+// FindById - Consulta de registros no banco de dados por id
+func (c *CrudRepository) FindById(target interface{}, conds ...interface{}) {
+	c.db.FindById(target, conds...)
 }
 
 // Delete - Exclusão de registro no banco de dados

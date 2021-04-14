@@ -1,7 +1,7 @@
 package database
 
 import (
-	"fmt"
+	"log"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -15,6 +15,7 @@ type (
 		Save(value interface{}) *gorm.DB
 		Where(query interface{}, args ...interface{}) *gorm.DB
 		Find(dest interface{}, conds ...interface{}) *gorm.DB
+		First(dest interface{}, conds ...interface{}) *gorm.DB
 		Delete(value interface{}, conds ...interface{}) *gorm.DB
 		AutoMigrate(dst ...interface{}) error
 	}
@@ -32,7 +33,7 @@ var (
 func init() {
 	db, err := gorm.Open(sqlite.Open("conductor.db"), &gorm.Config{})
 
-	fmt.Println("Conexão com o banco criada com sucesso")
+	log.Println("Conexão com o banco criada com sucesso")
 
 	if err != nil {
 		panic("failed to connect database")
@@ -63,6 +64,11 @@ func (database *Database) Find(target interface{}, entity interface{}, inputs ..
 // FindAll - Consulta de registros no banco de dados
 func (database *Database) FindAll(target interface{}) {
 	database.orm.Find(target)
+}
+
+// FindById - Consulta de registros no banco de dados por id
+func (database *Database) FindById(target interface{}, conds ...interface{}) {
+	database.orm.First(target, conds)
 }
 
 // Delete - Exclusão de registro no banco de dados

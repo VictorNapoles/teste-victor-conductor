@@ -8,11 +8,12 @@ import (
 
 type (
 	DatabaseStub struct {
-		doInsert  func(entity interface{})
-		doUpdate  func(entity interface{})
-		doFind    func(target interface{}, entity interface{}, inputs ...interface{})
-		doFindAll func(target interface{})
-		doDelete  func(entity interface{}, id ...interface{})
+		doInsert   func(entity interface{})
+		doUpdate   func(entity interface{})
+		doFind     func(target interface{}, entity interface{}, inputs ...interface{})
+		doFindAll  func(target interface{})
+		doFindById func(target interface{}, conds ...interface{})
+		doDelete   func(entity interface{}, id ...interface{})
 	}
 )
 
@@ -33,6 +34,10 @@ func (database *DatabaseStub) Find(target interface{}, entity interface{}, input
 
 // FindAll - Consulta de registros no banco de dados
 func (database *DatabaseStub) FindAll(target interface{}) {
+	database.doFindAll(target)
+}
+
+func (database *DatabaseStub) FindById(target interface{}, conds ...interface{}) {
 	database.doFindAll(target)
 }
 

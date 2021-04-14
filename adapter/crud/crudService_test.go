@@ -8,11 +8,12 @@ import (
 
 type (
 	CrudRepositoryStub struct {
-		doInsert  func(entity interface{})
-		doUpdate  func(entity interface{})
-		doFind    func(target interface{}, entity interface{}, inputs ...interface{})
-		doFindAll func(target interface{})
-		doDelete  func(entity interface{}, id ...interface{})
+		doInsert   func(entity interface{})
+		doUpdate   func(entity interface{})
+		doFind     func(target interface{}, entity interface{}, inputs ...interface{})
+		doFindAll  func(target interface{})
+		doDelete   func(entity interface{}, id ...interface{})
+		doFindById func(target interface{}, conds ...interface{})
 	}
 )
 
@@ -34,6 +35,11 @@ func (repository *CrudRepositoryStub) Find(target interface{}, entity interface{
 // FindAll - Consulta de registros no banco de dados
 func (repository *CrudRepositoryStub) FindAll(target interface{}) {
 	repository.doFindAll(target)
+}
+
+// FindById - Consulta de registros no banco de dados por id
+func (repository *CrudRepositoryStub) FindById(target interface{}, conds ...interface{}) {
+	repository.doFindById(target, conds...)
 }
 
 // Delete - Exclusão de registro no banco de dados
