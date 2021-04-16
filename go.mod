@@ -3,12 +3,12 @@ module github.com/VictorNapoles/teste-victor-conductor
 go 1.16
 
 require (
-	github.com/gin-gonic/gin v1.7.1 // indirect
+	github.com/gin-gonic/gin v1.7.1
 	github.com/go-playground/validator/v10 v10.5.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/uuid v1.2.0 // indirect
+	github.com/google/uuid v1.2.0
 	github.com/json-iterator/go v1.1.10 // indirect
-	github.com/jung-kurt/gofpdf v1.16.2 // indirect
+	github.com/jung-kurt/gofpdf v1.16.2
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-sqlite3 v1.14.6 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
@@ -18,6 +18,6 @@ require (
 	golang.org/x/sys v0.0.0-20210414055047-fe65e336abe0 // indirect
 	golang.org/x/text v0.3.6 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gorm.io/driver/sqlite v1.1.4 // indirect
-	gorm.io/gorm v1.21.7 // indirect
+	gorm.io/driver/sqlite v1.1.4
+	gorm.io/gorm v1.21.7
 )
