@@ -35,7 +35,7 @@ func (t *TransacaoService) FindByConta(idConta string) []transacao.Transacao {
 func (t *TransacaoService) GenerateReport(idConta string) *gofpdf.Fpdf {
 	transacoes := t.FindByConta(idConta)
 
-	xCellConta, xCellTransacao, xCellValor, yTitle, yHeader, mmLinha := 10, 110, 175, 50, 70, 15
+	xCellConta, xCellTransacao, xCellValor, yTitle, yHeader, mmLinha := 10, 100, 175, 50, 70, 10
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	tr := pdf.UnicodeTranslatorFromDescriptor("")
 
@@ -43,7 +43,7 @@ func (t *TransacaoService) GenerateReport(idConta string) *gofpdf.Fpdf {
 	pdf.SetFont("Arial", "B", 16)
 	pdf.ImageOptions(
 		"assert/logo_conductor.png",
-		80, 20,
+		70, 20,
 		60, 0,
 		false,
 		gofpdf.ImageOptions{ImageType: "PNG", ReadDpi: true},
@@ -55,7 +55,6 @@ func (t *TransacaoService) GenerateReport(idConta string) *gofpdf.Fpdf {
 	pdf.Text(float64(xCellConta), float64(yHeader), "CONTA")
 	pdf.Text(float64(xCellTransacao), float64(yHeader), tr("TRANSAÇÃO"))
 	pdf.Text(float64(xCellValor), float64(yHeader), "VALOR")
-	//pdf.SetFont()
 
 	pdf.SetFont("Arial", "", 12)
 
