@@ -37,6 +37,7 @@ func (t *TransacaoService) GenerateReport(idConta string) *gofpdf.Fpdf {
 
 	xCellConta, xCellTransacao, xCellValor, yTitle, yHeader, mmLinha := 10, 110, 175, 50, 70, 15
 	pdf := gofpdf.New("P", "mm", "A4", "")
+	tr := pdf.UnicodeTranslatorFromDescriptor("")
 
 	pdf.AddPage()
 	pdf.SetFont("Arial", "B", 16)
@@ -49,10 +50,10 @@ func (t *TransacaoService) GenerateReport(idConta string) *gofpdf.Fpdf {
 		0,
 		"",
 	)
-	pdf.Text(float64(80), float64(yTitle), "RELATÓRIO")
+	pdf.Text(float64(80), float64(yTitle), tr("RELATÓRIO"))
 
 	pdf.Text(float64(xCellConta), float64(yHeader), "CONTA")
-	pdf.Text(float64(xCellTransacao), float64(yHeader), "TRANSAÇÃO")
+	pdf.Text(float64(xCellTransacao), float64(yHeader), tr("TRANSAÇÃO"))
 	pdf.Text(float64(xCellValor), float64(yHeader), "VALOR")
 	//pdf.SetFont()
 
