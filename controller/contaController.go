@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/VictorNapoles/teste-victor-conductor/config/http"
+	"github.com/VictorNapoles/teste-victor-conductor/controller/response"
 	"github.com/VictorNapoles/teste-victor-conductor/domain/conta"
 	"github.com/VictorNapoles/teste-victor-conductor/domain/transacao"
 	"github.com/VictorNapoles/teste-victor-conductor/service"
@@ -14,8 +15,8 @@ import (
 
 type (
 	IContaService interface {
-		FindById(id string) *conta.Conta
-		FindAll() *[]conta.Conta
+		FindById(id string) conta.Conta
+		FindAll() []conta.Conta
 	}
 
 	IContaTransacaoService interface {
@@ -53,15 +54,31 @@ func GetContaController() *ContaController {
 }
 
 func (c *ContaController) GetById(context *gin.Context) {
-	context.JSON(200, c.service.FindById(context.Param("id")))
+	conta := c.service.FindById(context.Param("id"))
+
+	response := &response.ContaResponse{ID: conta.ID, Status: conta.Status}
+	context.JSON(200, response)
 }
 
 func (c *ContaController) GetAll(context *gin.Context) {
-	context.JSON(200, c.service.FindAll())
+	contas := c.service.FindAll()
+
+	result := make([]response.ContaResponse, 0)
+
+	for _, element := range contas {
+		result = append(result, response.ContaResponse{ID: element.ID, Status: element.Status})
+	}
+	context.JSON(200, result)
 }
 
 func (c *ContaController) GetTransacoesByConta(context *gin.Context) {
-	context.JSON(200, c.transacaoService.FindByConta(context.Param("id")))
+	transacoes := c.transacaoService.FindByConta(context.Param("id"))
+	result := make([]response.TransacaoResponse, 0)
+
+	for _, element := range transacoes {
+		result = append(result, response.TransacaoResponse{ID: element.ID, ContaID: element.ContaID, Descricao: element.Descricao, Valor: element.Valor})
+	}
+	context.JSON(200, result)
 }
 
 func (c *ContaController) GetTransacoesByContaReport(context *gin.Context) {

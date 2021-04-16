@@ -6,7 +6,7 @@ type (
 	Transacao struct {
 		ID        string
 		Descricao string
-		Valor     float32
+		Valor     float64
 		ContaID   string
 		Conta     conta.Conta
 	}

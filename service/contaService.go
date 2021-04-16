@@ -24,14 +24,14 @@ func GetContaService() *ContaService {
 	return contaService
 }
 
-func (c *ContaService) FindById(id string) *conta.Conta {
+func (c *ContaService) FindById(id string) conta.Conta {
 	var result conta.Conta
 	c.CrudService.FindById(&result, id)
-	return &result
+	return result
 }
 
-func (c *ContaService) FindAll() *[]conta.Conta {
+func (c *ContaService) FindAll() []conta.Conta {
 	var contas []conta.Conta
 	c.CrudService.FindAll(&contas)
-	return &contas
+	return contas
 }

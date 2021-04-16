@@ -12,10 +12,13 @@ func init() {
 	database.GetDatabase().GetORM().AutoMigrate(&conta.Conta{}, &transacao.Transacao{})
 	service := crud.GetService()
 	for i := 0; i < 15; i++ {
+
 		id := uuid.New().String()
-		service.Insert(&conta.Conta{ID: id, Status: "ATIVA"})
 		descricoes := [3]string{"Apple Store", "Amazon Prime", "Spotify"}
-		prices := [3]float32{30.00, 9.90, 35.50}
+		prices := [3]float64{30.00, 9.90, 35.50}
+
+		service.Insert(&conta.Conta{ID: id, Status: "ATIVA"})
+
 		for j := 0; j < len(descricoes); j++ {
 			service.Insert(&transacao.Transacao{ID: uuid.New().String(), Descricao: descricoes[j], Valor: prices[j], ContaID: id})
 		}
