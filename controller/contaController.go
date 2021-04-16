@@ -53,6 +53,13 @@ func GetContaController() *ContaController {
 	return contaController
 }
 
+// @Summary Obter contas por id
+// @Description Retorna a lista com todas as contas
+// @Accept  json
+// @Produce  json
+// @Param   id     path    string     true        "Id da conta"
+// @Success 200 {object} []response.ContaResponse"
+// @Router /contas/{id} [get]
 func (c *ContaController) GetById(context *gin.Context) {
 	conta := c.service.FindById(context.Param("id"))
 
@@ -60,6 +67,12 @@ func (c *ContaController) GetById(context *gin.Context) {
 	context.JSON(200, response)
 }
 
+// @Summary Obter contas
+// @Description Retorna a lista com todas as contas
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} []response.ContaResponse"
+// @Router /contas [get]
 func (c *ContaController) GetAll(context *gin.Context) {
 	contas := c.service.FindAll()
 
@@ -71,6 +84,13 @@ func (c *ContaController) GetAll(context *gin.Context) {
 	context.JSON(200, result)
 }
 
+// @Summary Obter transações da conta
+// @Description Retorna a lista com todas as transações da conta
+// @Accept  json
+// @Produce  json
+// @Param   id     path    string     true        "Id da conta"
+// @Success 200 {object} []response.TransacaoResponse"
+// @Router /contas/{id}/transacoes [get]
 func (c *ContaController) GetTransacoesByConta(context *gin.Context) {
 	transacoes := c.transacaoService.FindByConta(context.Param("id"))
 	result := make([]response.TransacaoResponse, 0)
@@ -81,6 +101,13 @@ func (c *ContaController) GetTransacoesByConta(context *gin.Context) {
 	context.JSON(200, result)
 }
 
+// @Summary Obter contas
+// @Description Download de relatório com todas as transações da conta
+// @Accept  json
+// @Produce  application/pdf
+// @Param   id     path    string     true        "Id da conta"
+// @Success 200 {object} byte"
+// @Router /contas/{id}/transacoes.pdf [get]
 func (c *ContaController) GetTransacoesByContaReport(context *gin.Context) {
 	w := context.Writer
 	w.Header().Set("Content-Type", "application/octet-stream")
