@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/VictorNapoles/teste-victor-conductor/adapter/crud"
@@ -32,9 +33,9 @@ func (t *TransacaoService) FindByConta(idConta string) []transacao.Transacao {
 }
 
 func (t *TransacaoService) GenerateReport(idConta string) *gofpdf.Fpdf {
-	//transacoes := t.FindByConta(idConta)
+	transacoes := t.FindByConta(idConta)
 
-	xCellConta, xCellTransacao, xCellValor, yTitle, yHeader := 10, 90, 175, 50, 70
+	xCellConta, xCellTransacao, xCellValor, yTitle, yHeader, mmLinha := 10, 110, 175, 50, 70, 15
 	pdf := gofpdf.New("P", "mm", "A4", "")
 
 	pdf.AddPage()
@@ -54,6 +55,16 @@ func (t *TransacaoService) GenerateReport(idConta string) *gofpdf.Fpdf {
 	pdf.Text(float64(xCellTransacao), float64(yHeader), "TRANSAÇÃO")
 	pdf.Text(float64(xCellValor), float64(yHeader), "VALOR")
 	//pdf.SetFont()
+
+	pdf.SetFont("Arial", "", 12)
+
+	for index, transacao := range transacoes {
+		yLinha := (index+1)*mmLinha + yHeader
+
+		pdf.Text(float64(xCellConta), float64(yLinha), transacao.ContaID)
+		pdf.Text(float64(xCellTransacao), float64(yLinha), transacao.Descricao)
+		pdf.Text(float64(xCellValor), float64(yLinha), fmt.Sprintf("%.2f", transacao.Valor))
+	}
 
 	return pdf
 }
